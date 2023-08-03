@@ -7,6 +7,7 @@ import {
 import React, { useState } from 'react';
 import InputField from "../../components/atoms/InputField";
 import MainButton from "../../components/atoms/MainButton";
+import style from "./style";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,8 +19,15 @@ const SignIn = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
+        <View style={style.mainContainer}>
           <InputField
+            placeholder='Email'
+            iconName={{
+              first: 'envelope',
+            }}
+          />
+          <InputField
+            iconSize={20}
             placeholder='Senha'
             iconName={{
               first: 'lock',

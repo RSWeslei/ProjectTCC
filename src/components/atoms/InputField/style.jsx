@@ -10,12 +10,15 @@ const InputFieldStyle = StyleSheet.create({
     backgroundColor: colors.primaryGrey,
     borderRadius: 5,
     marginHorizontal: 20,
-    height: 40,
+    height: 45,
   },
 
   icon: {
     paddingLeft: 10,
-    paddingRight: 4
+    paddingRight: 4,
+    height: '100%',
+    textAlignVertical: 'center',
+    width: 30,
   },
 
   secondIcon: {
