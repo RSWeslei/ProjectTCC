@@ -3,8 +3,11 @@ import colors from "../../../utils/globalColors";
 
 const SignUpPromptStyle = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     flexDirection: "row",
+  },
+
+  text: {
+    fontSize: 16,
   },
 
   signUpText: {

@@ -3,7 +3,6 @@ import colors from "../../../utils/globalColors";
 
 const InputFieldStyle = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',

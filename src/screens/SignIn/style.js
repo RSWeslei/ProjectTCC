@@ -4,9 +4,18 @@ import colors from "../../utils/globalColors";
 const SignInStyle = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+  },
+
+  logoContainer: {
+    alignItems: "center",
     padding: 20,
+    marginTop: 30,
+  },
+
+  inputContainer: {
+    flexDirection: "column",
+    paddingHorizontal: 15,
+    paddingVertical: 50,
     gap: 20,
   },
 
@@ -14,6 +23,9 @@ const SignInStyle = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "flex-end",
+    padding: 20,
+    marginBottom: 60,
   }
 })
 

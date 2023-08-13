@@ -3,11 +3,10 @@ import colors from "../../../utils/globalColors";
 
 const MainButtonStyle = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     backgroundColor: colors.primary,
     borderRadius: 15,
-    height: 45,
-    width: 250
+    height: 50,
+    width: 300
   },
 
   text: {

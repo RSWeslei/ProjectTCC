@@ -1,14 +1,17 @@
 import {
   StyleSheet,
   Text, TouchableOpacity,
+  KeyboardAvoidingView,
   View,
   SafeAreaView, ScrollView,
 } from "react-native";
+import style from "./style";
+
 import React, { useState } from 'react';
 import InputField from "../../components/atoms/InputField";
 import MainButton from "../../components/atoms/MainButton";
-import style from "./style";
 import SignUpPrompt from "../../components/atoms/SignUpPrompt";
+import LogoSVG from '../../assets/images/main-logo.svg';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,82 +21,42 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={style.mainContainer}>
-          <InputField
-            placeholder='Email'
-            iconName={{
-              first: 'envelope',
-            }}
-          />
-          <InputField
-            iconSize={20}
-            placeholder='Senha'
-            iconName={{
-              first: 'lock',
-              second: showPassword ? 'eye' : 'eye-slash',
-            }}
-            isPassword={!showPassword}
-            secondIconClickAction={togglePasswordVisibility}
-          />
-        </View>
-        <View style={style.loginContainer}>
-          <SignUpPrompt />
-          <MainButton text="Entrar" />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={style.mainContainer}>
+      <View style={style.logoContainer}>
+        <LogoSVG />
+      </View>
+      <View style={style.inputContainer}>
+        <InputField
+          placeholder='Email'
+          iconName={{
+            first: 'envelope',
+          }}
+        />
+        <InputField
+          iconSize={20}
+          placeholder='Senha'
+          iconName={{
+            first: 'lock',
+            second: showPassword ? 'eye' : 'eye-slash',
+          }}
+          isPassword={!showPassword}
+          secondIconClickAction={togglePasswordVisibility}
+        />
+      </View>
+      <View style={style.loginContainer}>
+        <SignUpPrompt />
+        <MainButton text="Entrar" />
+      </View>
+    </View>
+
+    // <View style={{flex: 1, backgroundColor: 'red'}}>
+    //   <View style={{backgroundColor: 'blue', width: '100%', height: 50}}/>
+    //   <View style={{flex: 1, backgroundColor: 'grey'}}/>
+    //   <View style={{backgroundColor: 'green', width: '100%', height: 50}}/>
+    // </View>
+
+
   )
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  fastSignInContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  box: {
-    width: 120,
-    height: 120,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginButton: {
-    marginTop: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 24,
-  },
-});
 
 export default SignIn;
