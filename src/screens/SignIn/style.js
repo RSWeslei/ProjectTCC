@@ -9,6 +9,12 @@ const SignInStyle = StyleSheet.create({
     padding: 20,
     gap: 20,
   },
+
+  loginContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+  }
 })
 
 export default SignInStyle;

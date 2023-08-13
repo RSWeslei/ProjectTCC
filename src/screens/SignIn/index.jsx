@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import InputField from "../../components/atoms/InputField";
 import MainButton from "../../components/atoms/MainButton";
 import style from "./style";
+import SignUpPrompt from "../../components/atoms/SignUpPrompt";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,10 @@ const SignIn = () => {
             secondIconClickAction={togglePasswordVisibility}
           />
         </View>
-        <MainButton text="Entrar" />
+        <View style={style.loginContainer}>
+          <SignUpPrompt />
+          <MainButton text="Entrar" />
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
