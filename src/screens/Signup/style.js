@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import colors from "../../utils/globalColors";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const SignInStyle = StyleSheet.create({
+const SignUpStyle = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
@@ -10,6 +10,14 @@ const SignInStyle = StyleSheet.create({
   invalidField: {
     borderBottomWidth: 3,
     borderColor: colors.error,
+  },
+
+  invalidText: {
+    color: colors.error,
+    textAlign: "right",
+    paddingRight: 20,
+    paddingTop: 5,
+    marginBottom: -10,
   },
 
   logoContainer: {
@@ -35,4 +43,4 @@ const SignInStyle = StyleSheet.create({
   }
 })
 
-export default SignInStyle;
+export default SignUpStyle;

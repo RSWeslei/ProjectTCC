@@ -1,20 +1,16 @@
-import {
-  StyleSheet,
-  Text, TouchableOpacity,
-  KeyboardAvoidingView,
-  View,
-  SafeAreaView, ScrollView,
-} from "react-native";
-import style from "./style";
+// noinspection JSValidateTypes
 
 import React, { useState } from 'react';
-import InputField from "../../components/atoms/InputField";
-import MainButton from "../../components/atoms/MainButton";
-import SignUpPrompt from "../../components/atoms/SignUpPrompt";
+import { View, Text } from 'react-native';
+import style from './style';
+import InputField from '../../components/atoms/InputField';
+import MainButton from '../../components/atoms/MainButton';
+import SignUpPrompt from '../../components/atoms/SignUpPrompt';
 import LogoSVG from '../../assets/images/main-logo.svg';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -27,14 +23,15 @@ const SignIn = () => {
       </View>
       <View style={style.inputContainer}>
         <InputField
-          placeholder='Email'
+          placeholder="Email"
           iconName={{
             first: 'envelope',
           }}
+          value={email}
         />
         <InputField
           iconSize={20}
-          placeholder='Senha'
+          placeholder="Senha"
           iconName={{
             first: 'lock',
             second: showPassword ? 'eye' : 'eye-slash',
@@ -48,15 +45,7 @@ const SignIn = () => {
         <MainButton text="Entrar" />
       </View>
     </View>
-
-    // <View style={{flex: 1, backgroundColor: 'red'}}>
-    //   <View style={{backgroundColor: 'blue', width: '100%', height: 50}}/>
-    //   <View style={{flex: 1, backgroundColor: 'grey'}}/>
-    //   <View style={{backgroundColor: 'green', width: '100%', height: 50}}/>
-    // </View>
-
-
-  )
-}
+  );
+};
 
 export default SignIn;

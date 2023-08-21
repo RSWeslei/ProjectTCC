@@ -10,6 +10,7 @@ const InputFieldStyle = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 20,
     height: 45,
+
   },
 
   icon: {
