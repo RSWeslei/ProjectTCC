@@ -8,6 +8,7 @@ const SignUpPromptStyle = StyleSheet.create({
 
   text: {
     fontSize: 16,
+    width: "auto",
   },
 
   signUpText: {
@@ -15,6 +16,7 @@ const SignUpPromptStyle = StyleSheet.create({
     paddingLeft: 8,
     height: 30,
     width: 100,
+    fontSize: 16,
   }
 })
 

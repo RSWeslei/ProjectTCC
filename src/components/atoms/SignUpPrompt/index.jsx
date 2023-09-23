@@ -1,17 +1,21 @@
 import {
   Text,
   View,
+  TouchableOpacity,
 } from "react-native";
 import style from "./style";
 
-const SignUpPrompt = () => {
+const SignUpPrompt = ({onPress = () => {}}) => {
   return (
     <View style={style.mainContainer}>
       <Text style={style.text}>{'Não possui uma conta?'}</Text>
-      <Text
-        style={[style.signUpText, style.text]}
-        onPress={() => console.log('Cadastra-se')}
-      >{'Cadastra-se'}</Text>
+      <TouchableOpacity
+        onPress={onPress}
+      >
+        <Text
+          style={style.signUpText}
+        >{'Cadastra-se'}</Text>
+      </TouchableOpacity>
     </View>
   )
 }

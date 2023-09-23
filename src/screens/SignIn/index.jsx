@@ -1,5 +1,3 @@
-// noinspection JSValidateTypes
-
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import style from './style';
@@ -8,13 +6,20 @@ import MainButton from '../../components/atoms/MainButton';
 import SignUpPrompt from '../../components/atoms/SignUpPrompt';
 import LogoSVG from '../../assets/images/main-logo.svg';
 
-const SignIn = () => {
+const SignIn = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
+  const handleSignIn = () => {
+    console.log('Sign-in button pressed!');
+    console.log(email)
+
+    navigation.navigate('Home')
+  }
 
   return (
     <View style={style.mainContainer}>
@@ -41,8 +46,8 @@ const SignIn = () => {
         />
       </View>
       <View style={style.loginContainer}>
-        <SignUpPrompt />
-        <MainButton text="Entrar" />
+        <SignUpPrompt onPress={() => navigation.push('SignUp')} />
+        <MainButton text="Entrar" onPress={handleSignIn} />
       </View>
     </View>
   );
