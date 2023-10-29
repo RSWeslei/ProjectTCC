@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Image, View } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapStyle from './style';
 import colors from '../../utils/globalColors';
 import Geolocation from 'react-native-geolocation-service';
 import { useFocusEffect } from '@react-navigation/native';
+import UserLocationMarker from "../../components/atoms/UserLocationMarker";
 
 const Map = ({ navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -40,7 +41,15 @@ const Map = ({ navigation }) => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-        />
+        >
+          <Marker
+            coordinate={{ latitude: currentLocation.latitude, longitude: currentLocation.longitude }}
+            title="Você está aqui"
+            description="Sua localização atual"
+          >
+            <UserLocationMarker/>
+          </Marker>
+        </MapView>
       ) : (
         <View>
           {/* You can render a loading indicator here */}

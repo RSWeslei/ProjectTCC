@@ -8,6 +8,8 @@ const colors = {
   yellow:  '#FFD700',
   black: '#000000',
   blackVariantOne: '#373737',
+  welcomeDotActive: '#17CC00',
+  welcomeDotInactive: '#1DFF00',
 }
 
 export default colors;
