@@ -1,14 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { Image, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { FlatList, Image, View, Text,  SafeAreaView, StatusBar } from "react-native";
+import { ScrollView } from 'react-native-gesture-handler'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapStyle from './style';
 import colors from '../../utils/globalColors';
 import Geolocation from 'react-native-geolocation-service';
 import { useFocusEffect } from '@react-navigation/native';
 import UserLocationMarker from "../../components/atoms/UserLocationMarker";
+import BottomSheet from "@gorhom/bottom-sheet";
+import ProducerInfo from "../../components/atoms/ProducerInfo";
 
 const Map = ({ navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
+  const bottomSheetMapRef = useRef(null);
+
+  const producersData = [
+    {
+      id: 1,
+      name: 'Produtor 1',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    },
+    {
+      id: 2,
+      name: 'Produtor 2',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    },
+    {
+      id: 3,
+      name: 'Produtor 1',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    },
+    {
+      id: 4,
+      name: 'Produtor 2',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    },
+    {
+      id: 5,
+      name: 'Produtor 1',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    },
+    {
+      id: 6,
+      name: 'Produtor 2',
+      rating: 4.5,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
+    }
+  ]
 
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
@@ -26,6 +69,18 @@ const Map = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       getCurrentLocation();
+    }, [])
+  );
+  useFocusEffect(
+    React.useCallback(() => {
+      if (bottomSheetMapRef.current) {
+        bottomSheetMapRef.current.expand();
+      }
+      return () => {
+        if (bottomSheetMapRef.current) {
+          bottomSheetMapRef.current.close();
+        }
+      };
     }, [])
   );
 
@@ -55,6 +110,26 @@ const Map = ({ navigation }) => {
           {/* You can render a loading indicator here */}
         </View>
       )}
+      <BottomSheet
+        ref={bottomSheetMapRef}
+        index={1}
+        snapPoints={[35, '40%']}
+      >
+        <SafeAreaView style={{ flex: 1}}>
+          <ScrollView>
+            {producersData.map((item) => (
+              <View style={MapStyle.producerInfoContainer} key={item.id}>
+                <ProducerInfo
+                  name={item.name}
+                  rating={item.rating}
+                  image={item.image}
+                  showDistance={true}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      </BottomSheet>
     </View>
   );
 };

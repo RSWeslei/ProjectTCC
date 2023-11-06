@@ -1,8 +1,9 @@
 const colors = {
-  primary: '#4BFF34',
+  primary: '#41d12e',
   primaryVariant: '#128D07',
   primaryGrey: '#DDDCDC',
   secondaryGrey: '#BEBEBE',
+  tertiaryGrey: '#E2E2E2',
   white: '#FFFFFF',
   error: '#FF1A1A',
   yellow:  '#FFD700',
@@ -10,6 +11,7 @@ const colors = {
   blackVariantOne: '#373737',
   welcomeDotActive: '#17CC00',
   welcomeDotInactive: '#1DFF00',
-}
+  primaryBlue: '#0083FD',
+};
 
 export default colors;

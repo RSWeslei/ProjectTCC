@@ -17,7 +17,6 @@ const ProductViewerStyle = StyleSheet.create({
     borderRadius: 10,
   },
   nameContainer: {
-    backgroundColor: colors.secondaryGrey,
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
@@ -29,7 +28,6 @@ const ProductViewerStyle = StyleSheet.create({
     marginRight: 10,
   },
   priceContainer: {
-    backgroundColor: colors.secondaryGrey,
     width: "95%",
     marginTop: 5,
     alignSelf: "center",
@@ -38,18 +36,48 @@ const ProductViewerStyle = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     height: 1.5,
-    backgroundColor: colors.secondaryGrey,
     marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: colors.primaryGrey,
   },
   descriptionContainer: {
-    backgroundColor: colors.secondaryGrey,
     width: "95%",
     alignSelf: "center",
     marginTop: 10,
-    height: 100,
   },
   descriptionText: {
     fontSize: 14,
+  },
+  detailsContainer: {
+    width: "95%",
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  detailTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  detailTextTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 8,
+  },
+  detailTextValue: {
+    fontSize: 14,
+    textAlign: "center",
+    marginRight: 8,
+  },
+  producerContainer: {
+    width: "95%",
+    alignSelf: "center",
+    marginTop: 4,
+    flexDirection: "column",
+  },
+  producerTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
   }
 });
 

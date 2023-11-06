@@ -11,6 +11,15 @@ const MapStyle = StyleSheet.create({
   map: {
     flex: 1,
   },
+  producerInfoContainer: {
+    backgroundColor: colors.tertiaryGrey,
+    width: '90%',
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 15,
+  }
 });
 
 export default MapStyle;

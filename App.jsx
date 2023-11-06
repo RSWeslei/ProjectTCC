@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   const bottomSheetRef = useRef(null);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const snapPoints = useMemo(() => ['92%', '92%'], []);
+  const snapPoints = useMemo(() => ['92%'], []);
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,7 +36,7 @@ const App = () => {
       } else {
         bottomSheetRef.current.expand();
       }
-      setBottomSheetOpen(!bottomSheetOpen); // Toggle the state
+      setBottomSheetOpen(!bottomSheetOpen);
     }
   };
 
@@ -165,7 +165,7 @@ const App = () => {
                         <View style={{ flexDirection: 'row' }}>
                           <TouchableOpacity onPress={toggleBottomSheet}>
                             <Icon
-                              name={bottomSheetOpen ? 'close' : 'filter'} // Change icon based on state
+                              name={bottomSheetOpen ? 'close' : 'filter'}
                               color={colors.secondaryGrey}
                               size={22}
                               style={{ marginRight: 18 }}
@@ -192,9 +192,11 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
       <BottomSheet
+        enablePanDownToClose={true}
         ref={bottomSheetRef}
         index={-1}
         snapPoints={snapPoints}
+        onClose={() => setBottomSheetOpen(false)}
       >
         <Filter />
       </BottomSheet>

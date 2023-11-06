@@ -7,13 +7,13 @@ const ProducerInfoStyle = StyleSheet.create({
     alignItems: "center",
   },
   producerImage: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
     marginRight: 5,
     borderRadius: 15,
   },
   producerNameText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "bold",
     marginRight: 20,
     color: colors.blackVariantOne,
@@ -32,6 +32,19 @@ const ProducerInfoStyle = StyleSheet.create({
   starIcon: {
     fontSize: 18,
   },
+  distanceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  distanceIcon: {
+    fontSize: 17,
+    color: colors.primaryBlue,
+    marginRight: 5,
+  },
+  distanceText: {
+    fontSize: 16,
+    color: colors.blackVariantOne,
+  }
 });
 
 export default ProducerInfoStyle;
