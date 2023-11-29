@@ -18,6 +18,7 @@ import Filter from "./src/components/organisms/Filter";
 import ProductViewer from "./src/screens/ProductViewer";
 import Welcome from "./src/screens/Welcome";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import User from "./src/screens/User";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -133,6 +134,13 @@ const App = () => {
             }}
           />
           <Stack.Screen
+            name="User"
+            component={User}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name="Home"
             options={{
               headerShown: false,
@@ -156,6 +164,9 @@ const App = () => {
                     } else if (route.name === 'Mapa') {
                       size = 20;
                       iconName = 'map';
+                    }
+                    else if (route.name === 'Usuário') {
+                      iconName = 'user';
                     }
                     return <Icon name={iconName} color={color} size={size} />;
                   },
@@ -185,6 +196,10 @@ const App = () => {
                 <Tab.Screen
                   name="Mapa"
                   component={Map}
+                />
+                <Tab.Screen
+                  name="Usuário"
+                  component={User}
                 />
               </Tab.Navigator>
             )}
