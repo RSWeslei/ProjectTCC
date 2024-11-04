@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import style from './style';
 import Svg, { Path } from 'react-native-svg';
+
 const UserLocationMarker = () => {
   return (
     <View style={style.markerContainer}>

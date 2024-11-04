@@ -1,137 +1,171 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Image, View, Text,  SafeAreaView, StatusBar } from "react-native";
-import { ScrollView } from 'react-native-gesture-handler'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import MapStyle from './style';
-import colors from '../../utils/globalColors';
-import Geolocation from 'react-native-geolocation-service';
-import { useFocusEffect } from '@react-navigation/native';
-import UserLocationMarker from "../../components/atoms/UserLocationMarker";
+import { View, SafeAreaView, ScrollView } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import Geolocation from "react-native-geolocation-service";
+import { useFocusEffect } from "@react-navigation/native";
 import BottomSheet from "@gorhom/bottom-sheet";
+import UserLocationMarker from "../../components/atoms/UserLocationMarker";
 import ProducerInfo from "../../components/atoms/ProducerInfo";
+import { fetchProducer } from "../../services/producerService";
+import Loading from "../../components/atoms/Loading";
+import MapStyle from "./style";
+import { calculateDistance } from "../../utils/map";
+import ProducerLocationMarker from "../../components/atoms/ProducerLocationMarker";
 
 const Map = ({ navigation }) => {
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const bottomSheetMapRef = useRef(null);
+    const [currentLocation, setCurrentLocation] = useState(null);
+    const [producersData, setProducersData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const bottomSheetMapRef = useRef(null);
+    const mapRef = useRef(null); // Ref para o MapView
 
-  const producersData = [
-    {
-      id: 1,
-      name: 'Produtor 1',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    },
-    {
-      id: 2,
-      name: 'Produtor 2',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    },
-    {
-      id: 3,
-      name: 'Produtor 1',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    },
-    {
-      id: 4,
-      name: 'Produtor 2',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    },
-    {
-      id: 5,
-      name: 'Produtor 1',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    },
-    {
-      id: 6,
-      name: 'Produtor 2',
-      rating: 4.5,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkdzU2Q1d57jJ8X9llQbS47pBys4Bn6-VEYA&usqp=CAU'
-    }
-  ]
+    const getCurrentLocation = () => {
+        Geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setCurrentLocation({ latitude, longitude });
+            },
+            () => {},
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+    };
 
-  const getCurrentLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ latitude, longitude });
-      },
-      (error) => {
-        console.error('Error getting location:', error);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
-  };
+    const loadProducers = async () => {
+        try {
+            const data = await fetchProducer();
+            if (currentLocation) {
+                // Calcula a distância de cada produtor em relação à localização atual
+                const producersWithDistance = data.data.map((producer) => {
+                    const distance = calculateDistance(
+                        currentLocation.latitude,
+                        currentLocation.longitude,
+                        parseFloat(producer.address.latitude),
+                        parseFloat(producer.address.longitude)
+                    );
+                    return { ...producer, distance };
+                });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      getCurrentLocation();
-    }, [])
-  );
-  useFocusEffect(
-    React.useCallback(() => {
-      if (bottomSheetMapRef.current) {
-        bottomSheetMapRef.current.expand();
-      }
-      return () => {
-        if (bottomSheetMapRef.current) {
-          bottomSheetMapRef.current.close();
+                // Ordena os produtores pela distância
+                producersWithDistance.sort((a, b) => a.distance - b.distance);
+
+                setProducersData(producersWithDistance);
+            }
+        } finally {
+            setLoading(false);
         }
-      };
-    }, [])
-  );
+    };
 
-  return (
-    <View style={MapStyle.mainContainer}>
-      {currentLocation ? (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={MapStyle.map}
-          initialRegion={{
-            latitude: currentLocation.latitude,
-            longitude: currentLocation.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker
-            coordinate={{ latitude: currentLocation.latitude, longitude: currentLocation.longitude }}
-            title="Você está aqui"
-            description="Sua localização atual"
-          >
-            <UserLocationMarker/>
-          </Marker>
-        </MapView>
-      ) : (
-        <View>
-          {/* You can render a loading indicator here */}
+    useFocusEffect(
+        React.useCallback(() => {
+            getCurrentLocation();
+        }, [])
+    );
+
+    useEffect(() => {
+        if (currentLocation) {
+            loadProducers().then(() => {});
+        }
+    }, [currentLocation]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (bottomSheetMapRef.current) {
+                bottomSheetMapRef.current.expand();
+            }
+            return () => {
+                if (bottomSheetMapRef.current) {
+                    bottomSheetMapRef.current.close();
+                }
+            };
+        }, [])
+    );
+
+    const handleCardPress = (latitude, longitude) => {
+        if (mapRef.current) {
+            mapRef.current.animateToRegion(
+                {
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                },
+                1000
+            );
+        }
+    };
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    return (
+        <View style={MapStyle.mainContainer}>
+            {currentLocation ? (
+                <MapView
+                    ref={mapRef}
+                    provider={PROVIDER_GOOGLE}
+                    style={MapStyle.map}
+                    initialRegion={{
+                        latitude: currentLocation.latitude,
+                        longitude: currentLocation.longitude,
+                        latitudeDelta: 0.15,
+                        longitudeDelta: 0.1,
+                    }}
+                >
+                    <Marker
+                        coordinate={{
+                            latitude: currentLocation.latitude,
+                            longitude: currentLocation.longitude,
+                        }}
+                        title="Você está aqui"
+                        description="Sua localização atual"
+                    >
+                        <UserLocationMarker />
+                    </Marker>
+
+                    {producersData.map((producer) => (
+                        <Marker
+                            key={producer.id}
+                            coordinate={{
+                                latitude: parseFloat(producer.address.latitude),
+                                longitude: parseFloat(producer.address.longitude),
+                            }}
+                            title={producer.user.name}
+                            description={`Distância: ${producer.distance.toFixed(2)} km`}
+                        >
+                            <ProducerLocationMarker imageUrl={producer.imagePath} />
+                        </Marker>
+                    ))}
+                </MapView>
+            ) : null}
+
+            <BottomSheet ref={bottomSheetMapRef} index={1} snapPoints={[35, "40%"]}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <ScrollView>
+                        {producersData.map((producer) => (
+                            <View
+                                style={MapStyle.producerInfoContainer}
+                                key={producer.id}
+                                onTouchEnd={() =>
+                                    handleCardPress(
+                                        parseFloat(producer.address.latitude),
+                                        parseFloat(producer.address.longitude)
+                                    )
+                                }
+                            >
+                                <ProducerInfo
+                                    name={producer.user.name}
+                                    image={producer.imagePath}
+                                    distance={producer.distance.toFixed(2)}
+                                    showDistance={true}
+                                />
+                            </View>
+                        ))}
+                    </ScrollView>
+                </SafeAreaView>
+            </BottomSheet>
         </View>
-      )}
-      <BottomSheet
-        ref={bottomSheetMapRef}
-        index={1}
-        snapPoints={[35, '40%']}
-      >
-        <SafeAreaView style={{ flex: 1}}>
-          <ScrollView>
-            {producersData.map((item) => (
-              <View style={MapStyle.producerInfoContainer} key={item.id}>
-                <ProducerInfo
-                  name={item.name}
-                  rating={item.rating}
-                  image={item.image}
-                  showDistance={true}
-                />
-              </View>
-            ))}
-          </ScrollView>
-        </SafeAreaView>
-      </BottomSheet>
-    </View>
-  );
+    );
 };
 
 export default Map;

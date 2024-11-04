@@ -18,17 +18,6 @@ const ProducerInfoStyle = StyleSheet.create({
     marginRight: 20,
     color: colors.blackVariantOne,
   },
-  ratingText: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: colors.yellow,
-    marginRight: 5,
-  },
-  starContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: 50,
-  },
   starIcon: {
     fontSize: 18,
   },

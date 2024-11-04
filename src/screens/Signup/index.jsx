@@ -62,8 +62,8 @@ const SignUp = ({navigation}) => {
             iconName={{
               first: 'user-circle',
             }}
-            value={name} // Use the 'name' state variable here
-            onChangeText={(text) => setName(text)} // Update the 'name' state variable
+            value={name}
+            onChangeText={(text) => setName(text)}
         />
         <InputField
             placeholder="Email"

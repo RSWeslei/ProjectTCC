@@ -19,6 +19,7 @@ const MapStyle = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 15,
+    padding: 5
   }
 });
 

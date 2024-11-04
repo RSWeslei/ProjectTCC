@@ -15,8 +15,7 @@ const ProductViewer = ({route}) => {
     <View style={style.mainContainer}>
       <View style={style.imageContainer}>
         <Image
-          source={require("../../assets/images/toma.jpg")}
-          // source={{uri: item.image}}
+            source={typeof item.image === 'number' ? item.image : { uri: item.image }}
           style={style.productImage}
         />
       </View>
