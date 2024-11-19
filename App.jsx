@@ -20,6 +20,7 @@ import Welcome from "./src/screens/Welcome"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import User from "./src/screens/User"
 import SearchBar from './src/components/atoms/SearchBar'
+import CreateProducerAccount from "./src/screens/CreateProducerAccount"
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -148,6 +149,14 @@ const App = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
+                name="CreateProducerAccount"
+                component={CreateProducerAccount}
+                options={{
+                  headerTitle: 'Criar Conta de Produtor',
+                  headerTitleAlign: 'center',
+                }}
+            />
+            <Stack.Screen
                 name="Home"
                 options={{ headerShown: false }}
             >
@@ -209,7 +218,13 @@ const App = () => {
                         })}
                     >
                       <Tab.Screen name="Início">
-                        {({ navigation }) => <Home navigation={navigation} searchQuery={searchQuery} />}
+                        {({ navigation, route }) => (
+                            <Home
+                                navigation={navigation}
+                                route={route}
+                                searchQuery={searchQuery}
+                            />
+                        )}
                       </Tab.Screen>
                       <Tab.Screen name="Mapa" component={Map} />
                       <Tab.Screen name="Usuário" component={User} />

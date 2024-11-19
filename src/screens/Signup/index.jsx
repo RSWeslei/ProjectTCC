@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, Alert} from 'react-native'
 import style from './style';
 import InputField from '../../components/atoms/InputField';
 import MainButton from '../../components/atoms/MainButton';
-import SignUpPrompt from '../../components/atoms/SignUpPrompt';
 import LogoSVG from '../../assets/images/main-logo.svg';
+import {signUp} from '../../services/userService';
 
 const SignUp = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,18 +40,34 @@ const SignUp = ({navigation}) => {
     setRepeatPassword(inputRepeatPassword);
   }
 
-  const [name, setName] = useState(''); // Initialize with an empty string
+  const [name, setName] = useState('');
 
-  const handleSignUp = () => {
-    console.log('Sign-up button pressed!');
-    console.log(password)
-    console.log(repeatPassword)
-    console.log(email)
-    console.log(name)
-    navigation.replace('Home')
-  }
+    const handleSignUp = async () => {
+        if (name === "" || email === "" || password === "") {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos corretamente')
+            return
+        }
 
-  return (
+        try {
+            const data = { name, email, password }
+            console.log('Dados do usuário:', data)
+            const response = await signUp(data)
+            console.log('Usuário cadastrado com sucesso:', response)
+
+            if (!response.success) {
+                Alert.alert('Erro', response.message)
+                return
+            }
+
+            // Navegar para a tela de login (SignIn)
+            navigation.replace('SignIn') // Altere aqui para 'SignIn'
+        } catch (error) {
+            Alert.alert('Erro', 'Ocorreu um erro ao cadastrar. Tente novamente.')
+        }
+    }
+
+
+    return (
     <View style={style.mainContainer}>
       <View style={style.logoContainer}>
         <LogoSVG />

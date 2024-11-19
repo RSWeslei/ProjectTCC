@@ -10,7 +10,6 @@ import {loadImage} from '../../../services/fetchService'
 
 const ItemCard = ({ item = {}, navigation}) => {
   const imageUrl = loadImage(item.imagePath);
-
   return (
     <TouchableOpacity
       style={styles.mainContainer}

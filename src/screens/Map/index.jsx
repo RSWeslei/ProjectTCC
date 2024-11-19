@@ -158,6 +158,12 @@ const Map = ({ navigation }) => {
                                     image={producer.imagePath}
                                     distance={producer.distance.toFixed(2)}
                                     showDistance={true}
+                                    showProductsButton={true}
+                                    showProductsIcon={true}
+                                    onProductsPress={() => {
+                                        navigation.navigate('Home', { producerId: item.producer.id });
+                                    }}
+                                    producerId={producer.id}
                                 />
                             </View>
                         ))}

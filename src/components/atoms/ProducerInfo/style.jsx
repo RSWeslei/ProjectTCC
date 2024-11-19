@@ -5,6 +5,7 @@ const ProducerInfoStyle = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   producerImage: {
     width: 30,
@@ -15,7 +16,7 @@ const ProducerInfoStyle = StyleSheet.create({
   producerNameText: {
     fontSize: 16,
     fontWeight: "bold",
-    marginRight: 20,
+    flex: 1,
     color: colors.blackVariantOne,
   },
   starIcon: {
@@ -24,6 +25,7 @@ const ProducerInfoStyle = StyleSheet.create({
   distanceContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "flex-end",
   },
   distanceIcon: {
     fontSize: 17,
@@ -33,6 +35,15 @@ const ProducerInfoStyle = StyleSheet.create({
   distanceText: {
     fontSize: 16,
     color: colors.blackVariantOne,
+    alignContent: "center",
+  },
+  productsIconContainer: {
+    marginLeft: 10,
+  },
+  productsIcon: {
+    fontSize: 20,
+    color: colors.primaryBlue,
+    marginRight: 3
   }
 });
 
