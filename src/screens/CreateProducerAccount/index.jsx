@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, PermissionsAndroid, Platform } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 import style from './style';
 import InputField from '../../components/atoms/InputField';
 import MainButton from '../../components/atoms/MainButton';
@@ -15,10 +16,49 @@ const CreateProducerAccount = ({ navigation }) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      return true;
+    }
+
+    const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  };
+
+  const handleGetLocation = async () => {
+    try {
+      const hasPermission = await requestLocationPermission();
+
+      if (!hasPermission) {
+        Alert.alert('Permissão negada', 'Não foi possível acessar sua localização.');
+        return;
+      }
+
+      Geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setLatitude(latitude);
+            setLongitude(longitude);
+            Alert.alert('Sucesso', 'Coordenadas incluídas com sucesso!');
+          },
+          (error) => {},
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível obter sua localização.');
+      console.error(error);
+    }
+  };
 
   const handleCreateAccount = async () => {
-    if (!cpf || !street || !number || !city || !state || !postalCode) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios');
+    if (!cpf || !latitude || !longitude || !street || !number || !city || !state || !postalCode) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios e inclua sua localização.');
       return;
     }
 
@@ -33,6 +73,8 @@ const CreateProducerAccount = ({ navigation }) => {
           city,
           state,
           postalCode,
+          latitude,
+          longitude,
         },
       };
 
@@ -46,12 +88,8 @@ const CreateProducerAccount = ({ navigation }) => {
       Alert.alert('Sucesso', 'Conta de produtor criada com sucesso!');
       navigation.goBack();
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao criar a conta de produtor. Tente novamente.');
+      Alert.alert('Erro', 'Ocorreu um erro');
     }
-  };
-
-  const handleGetLocation = () => {
-    Alert.alert('Ação', 'Função para obter coordenadas');
   };
 
   return (
@@ -89,7 +127,6 @@ const CreateProducerAccount = ({ navigation }) => {
           <InputField
               placeholder="Cidade"
               iconName={{ first: 'map-pin' }}
-
               value={city}
               onChangeText={(text) => setCity(text)}
               style={style.inputField}

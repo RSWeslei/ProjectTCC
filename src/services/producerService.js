@@ -1,4 +1,4 @@
-import { fetchData } from './fetchService'
+import {fetchData, postData} from './fetchService'
 
 const fetchProducer = async () => {
     try {
@@ -8,4 +8,13 @@ const fetchProducer = async () => {
     }
 }
 
-export { fetchProducer }
+const createProducerAccount = async (data) => {
+    try {
+        console.log(data)
+        return await postData('/producer', data)
+    } catch (error) {
+        throw error
+    }
+}
+
+export { fetchProducer, createProducerAccount }

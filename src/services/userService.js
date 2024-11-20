@@ -23,7 +23,6 @@ const login = async (email, password) => {
     try {
         const response = await postData('/login', { email, password })
         if (response.success && response.data.token) {
-            // Salvar o token no AsyncStorage se o login for bem-sucedido
             await AsyncStorage.setItem('userToken', response.data.token)
         }
         return response
@@ -51,4 +50,22 @@ const logout = async () => {
     }
 }
 
-export { fetchUser, signUp, login, getToken, logout }
+const validateToken = async () => {
+    try {
+        const token = await getToken();
+        if (!token) {
+            return false;
+        }
+
+        const response = await fetchData('/validate-token', {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.success; // Retorna `true` se o token for válido
+    } catch (error) {
+        console.error('Erro ao validar token:', error);
+        return false;
+    }
+};
+
+export { fetchUser, signUp, login, getToken, logout, validateToken }

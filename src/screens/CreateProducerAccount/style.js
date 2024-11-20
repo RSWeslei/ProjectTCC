@@ -39,6 +39,18 @@ const style = StyleSheet.create({
     color: colors.primary,
     textAlign: 'center',
   },
+  picker: {
+    height: 50, // Altura semelhante ao campo de entrada
+    borderWidth: 1, // Borda como o campo de entrada
+    borderColor: '#ccc', // Cor da borda semelhante ao campo
+    borderRadius: 8, // Bordas arredondadas
+    paddingHorizontal: 10, // Espaçamento interno
+    fontSize: 16, // Tamanho do texto
+    backgroundColor: '#fff', // Fundo branco
+    color: '#333', // Cor do texto
+    marginBottom: 15, // Espaço inferior
+  },
+
 });
 
 export default style;

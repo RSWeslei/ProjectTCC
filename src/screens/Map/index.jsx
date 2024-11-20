@@ -58,6 +58,9 @@ const Map = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
             getCurrentLocation();
+            if (currentLocation) {
+                loadProducers().then(() => {});
+            }
         }, [])
     );
 

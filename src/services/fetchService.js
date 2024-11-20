@@ -31,34 +31,40 @@ const fetchData = async (endpoint, options = {}) => {
 }
 
 const postData = async (endpoint, data, options = {}) => {
-    const token = await getToken() // Obtém o token antes de fazer a requisição
+    const token = await getToken();
 
     const headers = {
-        'Content-Type': 'application/json',
         ...options.headers,
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // Se o token existir, adiciona ao cabeçalho Authorization
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`
+    let body = data;
+
+    if (!(data instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+        body = JSON.stringify(data);
     }
 
     try {
         const response = await fetch(`${API_URL}${endpoint}`, {
             method: 'POST',
             headers,
-            body: JSON.stringify(data),
+            body,
             ...options,
-        })
+        });
 
-        const jsonResponse = await response.json()
-        console.log("response", jsonResponse)
+        const jsonResponse = await response.json();
+        console.log("response", jsonResponse);
         return jsonResponse;
     } catch (error) {
-        console.error("Erro ao enviar dados:", JSON.stringify(error))
-        throw error
+        console.error("Erro ao enviar dados:", error);
+        throw error;
     }
-}
+};
+
 
 const loadImage = (imagePath) => {
     try {

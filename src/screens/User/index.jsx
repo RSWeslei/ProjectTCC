@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BackHandler, Text, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import styles from "./style";
 import UserConfigCard from "../../components/atoms/UserConfigCard";
 import UserImage from "../../components/atoms/UserImage";
-import { fetchUser } from "../../services/userService";
+import {fetchUser, logout} from '../../services/userService'
 
 const User = ({ navigation }) => {
     const [userData, setUserData] = useState(null);
@@ -11,20 +12,38 @@ const User = ({ navigation }) => {
 
     const loadUserData = async () => {
         try {
+            setLoading(true);
             const response = await fetchUser();
             setUserData(response.data);
-        }
-        finally {
+        } finally {
             setLoading(false);
         }
-    };
+    }
+
+    const exitApp = () => {
+        logout().then(r => {});
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'SignIn' }],
+        });
+    }
 
     useEffect(() => {
-        loadUserData().then(r => {});
+        loadUserData().then()
     }, []);
 
+    useFocusEffect(
+        useCallback(() => {
+            loadUserData().then();
+        }, [])
+    );
+
     if (loading) {
-        return <Text>Carregando...</Text>;
+        return (
+            <View style={styles.mainContainer}>
+                <Text>Carregando...</Text>
+            </View>
+        );
     }
 
     return (
@@ -37,16 +56,17 @@ const User = ({ navigation }) => {
                             title: "Conta de produtor",
                             subtitle: "Acesse seus dados de produtor",
                         }}
+                        onPress={() => navigation.navigate("ProductCRUD")}
                     />
+
                 ) : (
                     <UserConfigCard
                         data={{
                             title: "Criar conta de produtor",
                             subtitle: "Crie uma conta de produtor",
                         }}
-                        onPress={() => navigation.navigate('CreateProducerAccount')}
+                        onPress={() => navigation.navigate("CreateProducerAccount")}
                     />
-
                 )}
                 <UserConfigCard data={{ title: "Meus dados", subtitle: "Acesse seus dados" }} />
                 <UserConfigCard
@@ -54,7 +74,7 @@ const User = ({ navigation }) => {
                         title: "Sair",
                         subtitle: "Saia do aplicativo",
                     }}
-                    onPress={() => BackHandler.exitApp()}
+                    onPress={() => exitApp()}
                 />
             </View>
         </View>

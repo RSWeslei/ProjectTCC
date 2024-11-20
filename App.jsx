@@ -21,6 +21,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import User from "./src/screens/User"
 import SearchBar from './src/components/atoms/SearchBar'
 import CreateProducerAccount from "./src/screens/CreateProducerAccount"
+import ProductCRUD from './src/screens/ProductCRUD'
+import ProductList from './src/screens/ProductList'
+import ProductForm from './src/screens/ProductForm'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -153,6 +156,30 @@ const App = () => {
                         options={{
                             headerTitle: 'Criar Conta de Produtor',
                             headerTitleAlign: 'center',
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProductCRUD"
+                        component={ProductCRUD}
+                        options={{
+                            headerTitle: "Gerenciar Produtos",
+                            headerTitleAlign: "center",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProductForm"
+                        component={ProductForm}
+                        options={{
+                            headerTitle: "Cadastrar Produto",
+                            headerTitleAlign: "center",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="ProductList"
+                        component={ProductList}
+                        options={{
+                            headerTitle: "Produtos",
+                            headerTitleAlign: "center",
                         }}
                     />
                     <Stack.Screen

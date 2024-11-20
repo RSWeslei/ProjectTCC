@@ -74,7 +74,7 @@ const ProductViewer = ({ route }) => {
               Categoria:
             </Text>
             <Text style={style.detailTextValue}>
-              {item.category || "Não informado"}
+              {item.type.name || "Não informado"}
             </Text>
           </View>
           <View style={style.detailTextContainer}>
@@ -82,7 +82,7 @@ const ProductViewer = ({ route }) => {
               Possui Agrotóxicos?
             </Text>
             <Text style={style.detailTextValue}>
-              {item.hasPesticides ? "Sim" : "Não" || "Não informado"}
+              {item.pesticides ? "Sim" : "Não" || "Não informado"}
             </Text>
           </View>
         </View>

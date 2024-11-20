@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react'
 import { FlatList, View } from 'react-native';
 import ItemCard from '../../components/molecules/ItemCard';
 import { fetchProduct } from '../../services/productService';
 import Loading from '../../components/atoms/Loading';
 import styles from './style';
+import {useFocusEffect} from '@react-navigation/native'
 
 const Home = ({ navigation, route, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pega o producerId dos parâmetros da rota
   const producerId = route?.params?.producerId;
 
-  useEffect(() => {
-    // Carregar produtos na montagem do componente
-    const loadProducts = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchProduct();
-        setProducts(data.data);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadProducts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchProduct();
+      setProducts(data.data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    loadProducts();
+  useEffect(() => {
+    loadProducts().then();
   }, []);
 
-  // Aplicar filtragem após receber os produtos e o producerId
+  useFocusEffect(
+      useCallback(() => {
+        loadProducts().then();
+      }, [])
+  );
+
   const filteredProducts = products.filter((item) => {
-    // Filtrar por producerId, se for fornecido
     const matchesProducer = producerId ? item.producer.id === producerId : true;
-    // Filtrar por query de busca, se houver
     const matchesSearchQuery = searchQuery ? item.name.toLowerCase().includes(searchQuery.toLowerCase()) : true;
     return matchesProducer && matchesSearchQuery;
   });
