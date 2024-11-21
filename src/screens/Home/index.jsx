@@ -40,14 +40,14 @@ const Home = ({ navigation, route, searchQuery }) => {
         loadProducts().then(r => {});
     }, [producerId]);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            if (!producerId){
-                clearFilter();
-                loadProducts().then(r => {});
-            }
-        }, [])
-    );
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         if (!producerId){
+    //             clearFilter();
+    //             loadProducts().then(r => {});
+    //         }
+    //     }, [])
+    // );
 
     const filteredProducts = products.filter((item) => {
         const matchesSearchQuery = searchQuery

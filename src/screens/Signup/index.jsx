@@ -43,14 +43,30 @@ const SignUp = ({navigation}) => {
   const [name, setName] = useState('');
 
     const handleSignUp = async () => {
-        if (name === "" || email === "" || password === "") {
-            Alert.alert('Erro', 'Por favor, preencha todos os campos corretamente')
+        if (name === '' || email === '' || password === '' || repeatPassword === '') {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.')
+            return
+        }
+
+        if (!isValidEmail) {
+            Alert.alert('Erro', 'Por favor, insira um e-mail válido.')
+            return
+        }
+
+        if (!isValidPassword) {
+            Alert.alert('Erro', 'A senha deve ter pelo menos 8 caracteres.')
+            return
+        }
+
+        if (!isValidSecondPassword) {
+            Alert.alert('Erro', 'As senhas não conferem. Verifique e tente novamente.')
             return
         }
 
         try {
             const data = { name, email, password }
             console.log('Dados do usuário:', data)
+
             const response = await signUp(data)
             console.log('Usuário cadastrado com sucesso:', response)
 
@@ -59,11 +75,14 @@ const SignUp = ({navigation}) => {
                 return
             }
 
+            Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!')
+
             navigation.replace('SignIn')
         } catch (error) {
             Alert.alert('Erro', 'Ocorreu um erro ao cadastrar. Tente novamente.')
         }
     }
+
 
     return (
     <View style={style.mainContainer}>
