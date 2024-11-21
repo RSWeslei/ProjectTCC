@@ -134,6 +134,7 @@ const CreateProducerAccount = ({ navigation }) => {
           <InputField
               placeholder="Estado"
               iconName={{ first: 'map' }}
+              maxLength={2}
               value={state}
               onChangeText={(text) => setState(text)}
               style={style.inputField}

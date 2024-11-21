@@ -17,7 +17,7 @@ const Map = ({ navigation }) => {
     const [producersData, setProducersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const bottomSheetMapRef = useRef(null);
-    const mapRef = useRef(null); // Ref para o MapView
+    const mapRef = useRef(null);
 
     const getCurrentLocation = () => {
         Geolocation.getCurrentPosition(
@@ -163,11 +163,9 @@ const Map = ({ navigation }) => {
                                     showDistance={true}
                                     showProductsButton={true}
                                     showProductsIcon={true}
-                                    onProductsPress={() => {
-                                        navigation.navigate('Home', { producerId: item.producer.id });
-                                    }}
                                     producerId={producer.id}
                                 />
+
                             </View>
                         ))}
                     </ScrollView>

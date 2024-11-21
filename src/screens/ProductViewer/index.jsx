@@ -59,7 +59,7 @@ const ProductViewer = ({ route }) => {
         <View style={style.priceContainer}>
           <Price
               price={item.price}
-              measure={item.measure}
+              measure={item.unit.name}
           />
         </View>
         <View style={style.descriptionContainer}>

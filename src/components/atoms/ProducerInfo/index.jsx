@@ -9,10 +9,7 @@ const ProducerInfo = ({ image, name, showDistance = false, distance, showProduct
     const navigation = useNavigation();
 
     const handleProductsPress = () => {
-        navigation.navigate('Início', {
-            screen: 'Início',
-            params: { producerId },
-        });
+        navigation.navigate('Início', { producerId });
     };
 
     return (

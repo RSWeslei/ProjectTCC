@@ -27,6 +27,7 @@ const createProduct = async (product) => {
 
 const updateProduct = async (productId, productData) => {
     try {
+        console.log("productId", productData);
         return await postData(`/product/${productId}`, productData, {
             method: 'PUT',
         });
