@@ -1,6 +1,6 @@
 import {getToken} from './userService'
 
-const API_URL = 'http://192.168.3.11:3000'
+const API_URL = 'https://project-tcc-backend.onrender.com'
 
 const fetchData = async (endpoint, options = {}) => {
     const token = await getToken()

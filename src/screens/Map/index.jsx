@@ -142,9 +142,18 @@ const Map = ({ navigation }) => {
                 </MapView>
             ) : null}
 
-            <BottomSheet ref={bottomSheetMapRef} index={1} snapPoints={[35, "40%"]}>
+            <BottomSheet
+                ref={bottomSheetMapRef}
+                index={1}
+                snapPoints={[35, "40%"]}
+                enableContentPanningGesture={false}
+            >
                 <SafeAreaView style={{ flex: 1 }}>
-                    <ScrollView>
+                    <ScrollView
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                        }}
+                    >
                         {producersData.map((producer) => (
                             <View
                                 style={MapStyle.producerInfoContainer}
@@ -165,7 +174,6 @@ const Map = ({ navigation }) => {
                                     showProductsIcon={true}
                                     producerId={producer.id}
                                 />
-
                             </View>
                         ))}
                     </ScrollView>

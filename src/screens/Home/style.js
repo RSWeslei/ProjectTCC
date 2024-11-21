@@ -28,6 +28,15 @@ const HomeStyle = StyleSheet.create({
     fontSize: 16,
   },
 
+  filterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 8,
+    marginBottom: 10,
+  },
 })
 
 export default HomeStyle;

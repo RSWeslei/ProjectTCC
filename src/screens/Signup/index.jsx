@@ -59,13 +59,11 @@ const SignUp = ({navigation}) => {
                 return
             }
 
-            // Navegar para a tela de login (SignIn)
-            navigation.replace('SignIn') // Altere aqui para 'SignIn'
+            navigation.replace('SignIn')
         } catch (error) {
             Alert.alert('Erro', 'Ocorreu um erro ao cadastrar. Tente novamente.')
         }
     }
-
 
     return (
     <View style={style.mainContainer}>

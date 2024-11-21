@@ -4,12 +4,14 @@ import ItemCard from '../../components/molecules/ItemCard';
 import { fetchProduct } from '../../services/productService';
 import Loading from '../../components/atoms/Loading';
 import styles from './style';
+import ProducerInfo from '../../components/atoms/ProducerInfo'
+import {useFocusEffect} from '@react-navigation/native'
 
 const Home = ({ navigation, route, searchQuery }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const producerId = route?.params?.producerId;
+    let producerId = route?.params?.producerId;
 
     const loadProducts = async () => {
         setLoading(true);
@@ -30,12 +32,22 @@ const Home = ({ navigation, route, searchQuery }) => {
 
     const clearFilter = () => {
         navigation.setParams({ producerId: null });
-        loadProducts();
+        producerId = null;
+        loadProducts().then(r => {});
     };
 
     useEffect(() => {
-        loadProducts();
+        loadProducts().then(r => {});
     }, [producerId]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!producerId){
+                clearFilter();
+                loadProducts().then(r => {});
+            }
+        }, [])
+    );
 
     const filteredProducts = products.filter((item) => {
         const matchesSearchQuery = searchQuery
@@ -51,9 +63,15 @@ const Home = ({ navigation, route, searchQuery }) => {
     return (
         <View style={styles.mainContainer}>
             {producerId && (
-                <TouchableOpacity onPress={clearFilter} style={styles.clearFilterButton}>
-                    <Text style={styles.clearFilterText}>Limpar Filtro</Text>
-                </TouchableOpacity>
+                <View style={styles.filterContainer}>
+                    <TouchableOpacity onPress={clearFilter} style={styles.clearFilterButton}>
+                        <Text style={styles.clearFilterText}>Limpar Filtro</Text>
+                    </TouchableOpacity>
+                    <ProducerInfo
+                        image={products[0]?.producer.imagePath}
+                        name={products[0]?.producer.user.name}
+                    />
+                </View>
             )}
             <FlatList
                 data={filteredProducts}

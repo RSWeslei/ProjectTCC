@@ -54,7 +54,7 @@ const ProductViewer = ({ route }) => {
           <Text style={style.productNameText}>
             {item.name}
           </Text>
-          <AvailabilityBox isAvailable={true} />
+          <AvailabilityBox isAvailable={item.status} />
         </View>
         <View style={style.priceContainer}>
           <Price
